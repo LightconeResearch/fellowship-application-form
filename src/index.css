@@ -99,37 +99,6 @@ body {
   width: auto;
 }
 
-.lang-toggle {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--lc-outline);
-  border-radius: var(--lc-radius);
-  overflow: hidden;
-  font-family: var(--lc-font-ui);
-  font-size: var(--lc-fs-small);
-}
-
-.lang-toggle button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.25rem 0.625rem;
-  color: var(--lc-muted);
-  font-family: inherit;
-  font-size: inherit;
-  transition: background 0.15s, color 0.15s;
-}
-
-.lang-toggle button.active {
-  background: var(--lc-primary);
-  color: var(--lc-white);
-}
-
-.lang-toggle button:not(.active):hover {
-  background: var(--lc-surface);
-  color: var(--lc-text);
-}
-
 /* ── Title ─────────────────────────────────────────────────── */
 
 .form-title {
@@ -171,7 +140,8 @@ body {
   margin-bottom: var(--lc-space-4);
 }
 
-.field label:not(.checkbox-item) {
+.field label:not(.checkbox-item),
+.field .field-label {
   display: block;
   font-family: var(--lc-font-ui);
   font-size: var(--lc-fs-small);
@@ -180,14 +150,16 @@ body {
   margin-bottom: var(--lc-space-2);
 }
 
-.field label .required {
+.field label .required,
+.field .field-label .required {
   color: var(--lc-warm);
   margin-left: 0.25rem;
 }
 
 .field input[type="text"],
 .field input[type="email"],
-.field textarea {
+.field textarea,
+.field select {
   width: 100%;
   background: var(--lc-bg);
   border: 1px solid var(--lc-outline);
@@ -202,7 +174,8 @@ body {
 
 .field input[type="text"]:focus,
 .field input[type="email"]:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   border-color: var(--lc-accent);
   box-shadow: 0 0 0 3px rgba(63, 114, 128, 0.15);
 }
@@ -228,7 +201,8 @@ body {
   padding: 0.25rem 0;
 }
 
-.checkbox-item input[type="checkbox"] {
+.checkbox-item input[type="checkbox"],
+.checkbox-item input[type="radio"] {
   accent-color: var(--lc-accent);
   width: 0.875rem;
   height: 0.875rem;
@@ -264,6 +238,12 @@ body {
 .other-input input[type="text"]:focus {
   border-color: var(--lc-accent);
   box-shadow: 0 0 0 3px rgba(63, 114, 128, 0.15);
+}
+
+.form-section .gdpr-notice {
+  margin: 0 0 var(--lc-space-4);
+  padding-top: 0;
+  border-top: none;
 }
 
 /* ── Submit button ─────────────────────────────────────────── */
