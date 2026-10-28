@@ -88,6 +88,7 @@ export const strings = {
   submitting: 'Submitting…',
   successTitle: 'Thank you!',
   successText: 'Your application has been received. We will get back to you by 20 November.',
+  previewBanner: 'Preview — applications open on 30 October 2026. Submission is disabled.',
   notOpenTitle: 'Applications are not open yet',
   notOpenText: 'Applications open on 30 October 2026. Please come back then.',
   closedTitle: 'Applications are closed',

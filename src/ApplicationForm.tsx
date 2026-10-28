@@ -9,7 +9,7 @@ import {
   WORKSHOP_ATTENDANCE,
 } from './strings';
 import type { Option } from './strings';
-import { currentTime, windowState } from './config';
+import { currentTime, isPreview, windowState } from './config';
 import { submitApplication } from './api/submitApplication';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -118,6 +118,7 @@ export default function ApplicationForm() {
   const [error, setError] = useState('');
 
   const state = windowState(currentTime());
+  const previewing = state === 'not-open' && isPreview();
 
   function toggleComputeResource(slug: string) {
     setComputeResources(prev => {
@@ -192,7 +193,7 @@ export default function ApplicationForm() {
   }
 
   if (submitted) return <StatusCard title={t.successTitle} text={t.successText} />;
-  if (state === 'not-open') return <StatusCard title={t.notOpenTitle} text={t.notOpenText} />;
+  if (state === 'not-open' && !previewing) return <StatusCard title={t.notOpenTitle} text={t.notOpenText} />;
   if (state === 'closed') return <StatusCard title={t.closedTitle} text={t.closedText} />;
 
   return (
@@ -201,6 +202,8 @@ export default function ApplicationForm() {
       <div className="form-header">
         <img src={`${import.meta.env.BASE_URL}logo-primary.svg`} alt="Lightcone Research" className="form-logo" />
       </div>
+
+      {previewing && <p className="preview-banner" role="status">{t.previewBanner}</p>}
 
       <h1 className="form-title">{t.title}</h1>
       <p className="form-intro">{t.intro}</p>
@@ -469,7 +472,7 @@ export default function ApplicationForm() {
 
         {/* ── Submit ──────────────────────────────────────────── */}
         <div className="submit-area">
-          <button type="submit" className="btn-submit" disabled={submitting}>
+          <button type="submit" className="btn-submit" disabled={submitting || previewing}>
             {submitting ? t.submitting : t.submit}
           </button>
           {error && <p className="error-msg" role="alert">{error}</p>}
