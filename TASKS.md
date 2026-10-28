@@ -1,25 +1,19 @@
-# **Création d’un formulaire d’intérêt pour le projet Lightcone Research**
+# LCR-221 — Build the Fellowship application form
 
-- **Format** :
-    - **QR code** sur les slides → lien vers un formulaire dédié (avec par ex. supabase en backend).
-    - **Champs à inclure** :
-        - Coordonnées (mail, nom, organisation).
-        - Domaines d’expertise.
-        - Sujets d’intérêt (ex : connexion HPC, workflows, portabilité des données, inférence de LLM).
-        - Option : "Accepter d’être recontacté" ou "S’inscrire à la mailing list".
-    - **Langues** : Disponible en français **et** en anglais.
-- **Utilisation** :
-    - Recueillir des contacts pour **construire un réseau de ressources** (experts, contributeurs potentiels).
-    - Identifier des **groupes de travail** (ex : inférence pour les chercheurs, portabilité des données entre centres de calcul).
-    - Organiser des **rencontres informelles** genre Meetup (ex : après-midi ou soirée) en région parisienne ou dans d’autres villes
-        - Cibler les **développeurs du secteur public** (CNRS, INRIA, INRAE, etc.).
-- **Objectif** : Rencontrer des experts, évaluer leur adéquation avec le projet, et créer des liens concrets.
-    - S’inspirer de modèles comme **PyData Paris** (QuantStack/Sylvain Corlay) pour structurer les meet-ups.
+Source: [LCR-221](https://linear.app/lightcone-research/issue/LCR-221/build-the-fellowship-application-form), context in the [Pilot Program Definition](https://linear.app/lightcone-research/document/pilot-program-definition-9d3696ef3f81) §2.
 
-## Prerequis
+## Fields
 
-- Utiliser la même architecture et techno que le projet `llm-survey-2026` disponible sur cet ordinateur à 
-`~/dev/claude/llm-survey-2026`
+- Name, email, institution, career stage, domain.
+- Project: description, current status (new or conversion of an existing project), goals for the pilot.
+- Computing resources (laptop, lab cluster, HPC centre), and whether the applicant has NERSC or CC-IN2P3 access.
+- PI or supervisor, and confirmation of their agreement.
+- Other group members taking part, if any.
+- Availability over the pilot period (30 Nov – late Feb), and closing-workshop attendance in Paris.
+- Consent to the data policy.
 
-- Utiliser le style du site web Lightcone Research disponible à
-`~/dev/lightcone/lightcone-website`
+## Done when
+
+- [ ] The form is live and responses land in the committee's review Sheet.
+- [x] A short notice explains how applicant data is used and how long it is kept (deleted 20 May 2027).
+- [x] The form opens on 30 Oct and closes automatically on 13 Nov (end of day, AoE), in both the UI and the database policy.
