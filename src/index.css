@@ -99,6 +99,17 @@ body {
   width: auto;
 }
 
+.preview-banner {
+  background: var(--lc-surface);
+  border-left: 3px solid var(--lc-warm);
+  border-radius: var(--lc-radius);
+  font-family: var(--lc-font-ui);
+  font-size: var(--lc-fs-small);
+  color: var(--lc-primary);
+  padding: var(--lc-space-2) var(--lc-space-3);
+  margin-bottom: var(--lc-space-5);
+}
+
 /* ── Title ─────────────────────────────────────────────────── */
 
 .form-title {

@@ -28,6 +28,8 @@ In dev, `?now=<ISO date>` overrides the clock to preview each state:
 - `http://localhost:5173/?now=2026-11-01T12:00Z`: open
 - `http://localhost:5173/?now=2026-11-14T13:00Z`: closed
 
+Before the window opens, add `?preview` to the URL to see the form on the published site, e.g. `https://lightconeresearch.github.io/interest-form/?preview`. Submission is disabled in preview, and the database refuses early inserts anyway.
+
 Local submits need a `.env.local` file with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
 
 ---

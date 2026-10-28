@@ -11,6 +11,12 @@ export function windowState(now: Date): WindowState {
   return 'open';
 }
 
+// `?preview` shows the form before it opens, with submission disabled.
+// The Supabase insert policy rejects early submissions regardless.
+export function isPreview(): boolean {
+  return new URLSearchParams(window.location.search).has('preview');
+}
+
 // In dev, `?now=<ISO date>` overrides the clock to preview each state.
 export function currentTime(): Date {
   if (import.meta.env.DEV) {
