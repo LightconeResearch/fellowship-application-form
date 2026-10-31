@@ -60,6 +60,9 @@ CREATE POLICY "insert_anon_during_window"
   WITH CHECK (now() >= '2026-10-29T23:00:00Z' AND now() < '2026-11-14T12:00:00Z');
 
 -- No SELECT policy: only the service role (used by the Google Sheet export) can read.
+-- Supabase grants every privilege to anon/authenticated by default, and TRUNCATE
+-- bypasses RLS, so strip them back to INSERT only.
+REVOKE ALL ON public.fellowship_applications FROM anon, authenticated;
 GRANT INSERT ON public.fellowship_applications TO anon;
 
 -- Retention: all application data is deleted 6 months after selection
