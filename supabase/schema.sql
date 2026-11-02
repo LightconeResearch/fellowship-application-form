@@ -53,11 +53,11 @@ CREATE TABLE fellowship_applications (
 ALTER TABLE fellowship_applications ENABLE ROW LEVEL SECURITY;
 
 -- Anonymous inserts are accepted only inside the application window:
--- 30 Oct 2026 00:00 Paris → 13 Nov 2026 end of day AoE.
+-- 30 Oct 2026 00:00 Paris → 20 Nov 2026 end of day AoE.
 -- Keep in sync with OPENS_AT / CLOSES_AT in src/config.ts.
 CREATE POLICY "insert_anon_during_window"
   ON fellowship_applications FOR INSERT TO anon
-  WITH CHECK (now() >= '2026-10-29T23:00:00Z' AND now() < '2026-11-14T12:00:00Z');
+  WITH CHECK (now() >= '2026-10-29T23:00:00Z' AND now() < '2026-11-21T12:00:00Z');
 
 -- No SELECT policy: only the service role (used by the Google Sheet export) can read.
 -- Supabase grants every privilege to anon/authenticated by default, and TRUNCATE
@@ -65,8 +65,7 @@ CREATE POLICY "insert_anon_during_window"
 REVOKE ALL ON public.fellowship_applications FROM anon, authenticated;
 GRANT INSERT ON public.fellowship_applications TO anon;
 
--- Retention: all application data is deleted 6 months after selection
--- (20 May 2027, 03:00 UTC). The job removes itself after running.
+-- Retention: all application data is deleted on 20 May 2027 (03:00 UTC). The job removes itself after running.
 CREATE EXTENSION IF NOT EXISTS pg_cron;
 
 SELECT cron.schedule(

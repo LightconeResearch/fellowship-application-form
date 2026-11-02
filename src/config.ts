@@ -1,7 +1,7 @@
 // Application window. Keep in sync with the insert policy in supabase/schema.sql,
 // which enforces the same window server-side.
 export const OPENS_AT = new Date('2026-10-30T00:00:00+01:00');  // 30 Oct, midnight Paris
-export const CLOSES_AT = new Date('2026-11-14T12:00:00Z');      // 13 Nov, end of day AoE (UTC−12)
+export const CLOSES_AT = new Date('2026-11-21T12:00:00Z');      // 20 Nov, end of day AoE (UTC−12)
 
 export type WindowState = 'not-open' | 'open' | 'closed';
 
