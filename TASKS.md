@@ -9,11 +9,11 @@ Source: [LCR-221](https://linear.app/lightcone-research/issue/LCR-221/build-the-
 - Computing resources (laptop, lab cluster, HPC centre), and whether the applicant has NERSC or CC-IN2P3 access.
 - PI or supervisor, and confirmation of their agreement.
 - Other group members taking part, if any.
-- Availability over the pilot period (30 Nov – late Feb), and closing-workshop attendance in Paris.
+- Availability over the pilot period (early Dec – late Feb), and closing-workshop attendance in Paris.
 - Consent to the data policy.
 
 ## Done when
 
 - [ ] The form is live and responses land in the committee's review Sheet.
 - [x] A short notice explains how applicant data is used and how long it is kept (deleted 20 May 2027).
-- [x] The form opens on 30 Oct and closes automatically on 13 Nov (end of day, AoE), in both the UI and the database policy.
+- [x] The form opens on 30 Oct and closes automatically on 20 Nov (end of day, AoE), in both the UI and the database policy.
