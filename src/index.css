@@ -127,6 +127,10 @@ body {
   margin-bottom: var(--lc-space-6);
 }
 
+.form-intro p + p {
+  margin-top: var(--lc-space-3);
+}
+
 /* ── Section headings ──────────────────────────────────────── */
 
 .form-section {
@@ -191,9 +195,57 @@ body {
   box-shadow: 0 0 0 3px rgba(63, 114, 128, 0.15);
 }
 
+.field input[type="file"] {
+  width: 100%;
+  color: var(--lc-text);
+  font-family: var(--lc-font-ui);
+  font-size: var(--lc-fs-small);
+}
+
+.field input[type="file"]::file-selector-button {
+  background: var(--lc-surface);
+  border: 1px solid var(--lc-outline);
+  border-radius: var(--lc-radius);
+  color: var(--lc-primary);
+  cursor: pointer;
+  font-family: var(--lc-font-ui);
+  font-size: var(--lc-fs-small);
+  margin-right: var(--lc-space-3);
+  padding: 0.5rem 0.75rem;
+}
+
+.field input[type="file"]::file-selector-button:hover {
+  background: var(--lc-surface-high);
+}
+
+.field-hint {
+  color: var(--lc-muted);
+  font-family: var(--lc-font-ui);
+  font-size: var(--lc-fs-small);
+  margin-top: var(--lc-space-2);
+}
+
+.field-hint.field-hint-above {
+  margin-top: 0;
+  margin-bottom: var(--lc-space-2);
+}
+
+.error-msg.field-error {
+  margin-top: var(--lc-space-2);
+}
+
 .field textarea {
   resize: vertical;
   min-height: 5rem;
+}
+
+/* The long-answer project questions get more room. */
+.field textarea.textarea-long {
+  min-height: 9rem;
+}
+
+.field textarea.textarea-longest {
+  min-height: 12rem;
 }
 
 /* ── Checkboxes ────────────────────────────────────────────── */
@@ -305,11 +357,13 @@ body {
   line-height: 1.6;
 }
 
+.form-intro a,
 .gdpr-notice a {
   color: var(--lc-accent);
   text-decoration: none;
 }
 
+.form-intro a:hover,
 .gdpr-notice a:hover {
   text-decoration: underline;
 }

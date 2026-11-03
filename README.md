@@ -1,13 +1,13 @@
-# Lightcone Research Fellows — Application Form
+# Lightcone Research Fellowship — Application Form
 
-Application form for the first cohort of Lightcone Research Fellows (Scientific Pilot Program, LCR-221). It is a single-page form deployed on GitHub Pages, with Supabase as the backend and a Google Sheet where the selection committee reviews applications.
+Application form for the first cohort of Lightcone Research Fellows (LCR-221). It is a single-page form deployed on GitHub Pages, with Supabase as the backend and a Google Sheet where the selection committee reviews applications.
 
 | Date | |
 |---|---|
 | Fri 30 Oct 2026 | Applications open (midnight Paris) |
 | Fri 20 Nov 2026 | Applications close (end of day AoE) |
 | Mon 23 Nov 2026 | Selection and notification |
-| Early Dec 2026 | Pilot starts |
+| Early Dec 2026 | Fellowship starts |
 | Thu 20 May 2027 | All application data deleted |
 
 The window is enforced twice: in the UI (`src/config.ts`) and by the Supabase insert policy (`supabase/schema.sql`). Keep the two in sync.
