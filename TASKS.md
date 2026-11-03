@@ -5,11 +5,11 @@ Source: [LCR-221](https://linear.app/lightcone-research/issue/LCR-221/build-the-
 ## Fields
 
 - Name, email, institution, career stage, domain.
-- Project: description, current status (new or conversion of an existing project), goals for the pilot.
+- Project: description, how far along it is (not started yet, or already underway or nearly finished), goals for the fellowship.
 - Computing resources (laptop, lab cluster, HPC centre), and whether the applicant has NERSC or CC-IN2P3 access.
 - PI or supervisor, and confirmation of their agreement.
 - Other individuals involved on this project, if any.
-- Availability over the pilot period (early Dec – late Feb), and attendance at the Paris Agentic AI for Science Summit.
+- Availability during the fellowship (early Dec – late Feb), and attendance at the Paris Agentic AI for Science Summit.
 - Consent to the data policy.
 
 ## Done when

@@ -21,8 +21,8 @@ export const DOMAINS: Option[] = [
 ];
 
 export const PROJECT_STATUSES: Option[] = [
-  { slug: 'new',        label: 'A new project' },
-  { slug: 'conversion', label: 'Conversion of an existing project' },
+  { slug: 'new',        label: 'Not started yet' },
+  { slug: 'conversion', label: 'Already underway or nearly finished' },
 ];
 
 export const COMPUTE_RESOURCES: Option[] = [
@@ -43,8 +43,8 @@ export const WORKSHOP_ATTENDANCE: Option[] = [
 ];
 
 export const strings = {
-  title: 'Lightcone Research Fellows — Application',
-  intro: 'Apply to join the first cohort of Lightcone Research Fellows: carry out a three-month analysis for your own science project on the Lightcone stack, with direct support from our team, from early December to late February. Applications close on 20 November (end of day, AoE).',
+  title: 'Apply for the Lightcone Research Fellowship',
+  intro: 'Join the first cohort of Lightcone Research Fellows. Bring your own research project and carry it out with AI agents and Lightcone’s tools, with hands-on support from our team. The fellowship runs remotely from early December to late February. Applications close on 20 November (end of day, AoE).',
   sectionAbout: 'About you',
   sectionProject: 'Your project',
   sectionCompute: 'Computing resources',
@@ -58,17 +58,17 @@ export const strings = {
   labelCareerStage: 'Career stage',
   labelDomain: 'Scientific domain',
   labelProjectDescription: 'Project description',
-  labelProjectStatus: 'Current status',
-  labelProjectGoals: 'What do you hope to achieve during the pilot?',
+  labelProjectStatus: 'How far along is your project?',
+  labelProjectGoals: 'What do you hope to achieve during the fellowship?',
   labelComputeResources: 'Which computing resources will you use?',
   labelComputeDetails: 'Details (optional)',
   labelNersc: 'I have access to NERSC',
   labelCcin2p3: 'I have access to CC-IN2P3',
   labelPiName: 'PI or supervisor name',
   labelPiEmail: 'PI or supervisor email',
-  labelPiAgreement: 'My PI or supervisor agrees to my participation in the pilot',
+  labelPiAgreement: 'My PI or supervisor agrees to my participation in the fellowship',
   labelGroupMembers: 'Other individuals involved on this project (optional)',
-  labelAvailability: 'Availability over the pilot period (early Dec – late Feb)',
+  labelAvailability: 'Availability during the fellowship (early Dec – late Feb)',
   labelAvailabilityNotes: 'Please describe your availability',
   labelWorkshop: 'Can you attend the Paris Agentic AI for Science Summit (late February)?',
   labelConsent: 'I have read the data notice above and agree to my answers being processed as described',
@@ -78,7 +78,7 @@ export const strings = {
   placeholderInstitution: 'University, lab…',
   placeholderOther: 'Please specify…',
   placeholderProjectDescription: 'The science question, data and methods',
-  placeholderProjectGoals: 'E.g. a first analysis on the stack, converting an existing pipeline…',
+  placeholderProjectGoals: 'E.g. a first analysis with Lightcone’s tools, or making an existing analysis easier to check and reuse…',
   placeholderComputeDetails: 'E.g. cluster name, GPUs, allocation…',
   placeholderGroupMembers: 'Names, roles and emails',
   placeholderAvailabilityNotes: 'E.g. unavailable in January, ~50% of my time…',
@@ -90,11 +90,11 @@ export const strings = {
   notOpenTitle: 'Applications are not open yet',
   notOpenText: 'Applications open on 30 October 2026. Please come back then.',
   closedTitle: 'Applications are closed',
-  closedText: 'Applications closed on 20 November 2026. Thank you for your interest in the Lightcone Research Fellows program.',
+  closedText: 'Applications closed on 20 November 2026. Thank you for your interest in the Lightcone Research Fellowship.',
   errorMsg: 'An error occurred while submitting. Please try again or write to info@lightconeresearch.org if the problem persists.',
   requiredError: 'Please fill in all required fields.',
   emailError: 'Please enter a valid email address for yourself and your PI or supervisor.',
   piAgreementError: 'Your PI or supervisor must agree to your participation.',
   consentError: 'Please accept the data policy to submit your application.',
-  dataNotice: 'Lightcone Research uses your answers only to select the first cohort of Fellows and, if you are selected, to organise your participation in the pilot. They are stored in Supabase (EU region) and shared with the selection committee in a restricted Google Sheet; they are not shared with anyone else. All application data is deleted by 20 May 2027. You may request access to, correction or deletion of your data at any time by writing to <a href="mailto:info@lightconeresearch.org">info@lightconeresearch.org</a>.',
+  dataNotice: 'Lightcone Research uses your answers only to select the first cohort of Fellows and, if you are selected, to organise your participation in the fellowship. They are stored in Supabase (EU region) and shared with the selection committee in a restricted Google Sheet; they are not shared with anyone else. All application data is deleted by 20 May 2027. You may request access to, correction or deletion of your data at any time by writing to <a href="mailto:info@lightconeresearch.org">info@lightconeresearch.org</a>.',
 };

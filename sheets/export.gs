@@ -26,7 +26,7 @@ const COLUMNS = [
   ['Domain (other)', 'domain_other'],
   ['Project description', 'project_description'],
   ['Project status', 'project_status'],
-  ['Pilot goals', 'project_goals'],
+  ['Fellowship goals', 'project_goals'],
   ['Compute resources', 'compute_resources'],
   ['Compute details', 'compute_details'],
   ['NERSC access', 'nersc_access'],
