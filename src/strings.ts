@@ -20,9 +20,22 @@ export const DOMAINS: Option[] = [
   { slug: 'other',          label: 'Other' },
 ];
 
-export const PROJECT_STATUSES: Option[] = [
-  { slug: 'new',        label: 'Not started yet' },
-  { slug: 'conversion', label: 'Already underway or nearly finished' },
+export const START_READINESS: Option[] = [
+  { slug: 'yes',    label: 'Yes' },
+  { slug: 'mostly', label: 'Mostly: a few things are still to come' },
+  { slug: 'no',     label: 'Not yet' },
+];
+
+export const SHAREABLE_RESULTS: Option[] = [
+  { slug: 'yes',   label: 'Yes' },
+  { slug: 'maybe', label: 'Possibly' },
+  { slug: 'no',    label: 'No' },
+];
+
+export const DATA_SHARING: Option[] = [
+  { slug: 'public',  label: 'Yes: the data is public or can be made public' },
+  { slug: 'partly',  label: 'Partly: some of the data is private or restricted' },
+  { slug: 'private', label: 'No: the data must stay private' },
 ];
 
 export const COMPUTE_RESOURCES: Option[] = [
@@ -62,10 +75,16 @@ export const strings = {
   labelEmail: 'Email',
   labelInstitution: 'Institution',
   labelGithubUsername: 'GitHub username (optional)',
+  labelCv: 'CV',
+  hintCv: 'PDF, up to 5 MB.',
   labelCareerStage: 'Career stage',
   labelDomain: 'Scientific domain',
   labelProjectDescription: 'Project description',
-  labelProjectStatus: 'How far along is your project?',
+  labelStartReady: 'Will you have everything you need to start on 1 December?',
+  hintStartReady: 'E.g. your data, code and access to computing resources.',
+  labelShareableResult: 'Do you expect to reach a publicly shareable result by the end of the fellowship, such as a preprint?',
+  labelDataSharing: 'Can the data behind your project be shared publicly by the end of the fellowship?',
+  hintDataSharing: 'This is not a requirement: projects using private data are welcome.',
   labelProjectGoals: 'What do you hope to achieve during the fellowship?',
   labelAgenticFit: 'Why is this project a good fit for working with AI agents?',
   labelRelevantLinks: 'Relevant code or previous work (optional)',
@@ -104,7 +123,9 @@ export const strings = {
   errorMsg: 'An error occurred while submitting. Please try again or write to info@lightconeresearch.org if the problem persists.',
   requiredError: 'Please fill in all required fields.',
   emailError: 'Please enter a valid email address for yourself and your PI or supervisor.',
+  cvSizeError: 'Your CV must be 5 MB or smaller.',
+  cvTypeError: 'Please upload your CV as a PDF.',
   piAgreementError: 'Your PI or supervisor must agree to your participation.',
   consentError: 'Please accept the data policy to submit your application.',
-  dataNotice: 'Lightcone Research uses your answers only to select the first cohort of Fellows and, if you are selected, to organise your participation in the fellowship. They are stored securely and seen only by the selection committee. All application data is deleted by 20 May 2027. You may request access to, correction or deletion of your data at any time by writing to <a href="mailto:info@lightconeresearch.org">info@lightconeresearch.org</a>.',
+  dataNotice: 'Lightcone Research uses your answers and CV only to select the first cohort of Fellows and, if you are selected, to organise your participation in the fellowship. They are stored securely and seen only by the selection committee. All application data, including CVs, is deleted by 20 May 2027. You may request access to, correction or deletion of your data at any time by writing to <a href="mailto:info@lightconeresearch.org">info@lightconeresearch.org</a>.',
 };

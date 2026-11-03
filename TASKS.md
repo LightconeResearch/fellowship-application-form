@@ -4,8 +4,8 @@ Source: [LCR-221](https://linear.app/lightcone-research/issue/LCR-221/build-the-
 
 ## Fields
 
-- Name, email, institution, GitHub username (optional), career stage, domain.
-- Project: description, how far along it is (not started yet, or already underway or nearly finished), goals for the fellowship, why it is a good fit for working with AI agents, and links to relevant code or previous work (optional).
+- Name, email, institution, GitHub username (optional), CV (PDF, up to 5 MB), career stage, domain.
+- Project: description, whether the applicant will have everything they need to start on 1 December, goals for the fellowship, why it is a good fit for working with AI agents, whether they expect a publicly shareable result such as a preprint, whether its data can be public (not a requirement), and links to relevant code or previous work (optional).
 - Computing resources (laptop, lab cluster, HPC centre).
 - PI or supervisor, and confirmation of their agreement.
 - Other individuals involved on this project, if any.

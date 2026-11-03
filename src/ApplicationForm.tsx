@@ -3,14 +3,16 @@ import {
   strings as t,
   CAREER_STAGES,
   DOMAINS,
-  PROJECT_STATUSES,
+  START_READINESS,
+  SHAREABLE_RESULTS,
+  DATA_SHARING,
   COMPUTE_RESOURCES,
   AVAILABILITIES,
   WORKSHOP_ATTENDANCE,
 } from './strings';
 import type { Option } from './strings';
 import { currentTime, isPreview, windowState } from './config';
-import { submitApplication } from './api/submitApplication';
+import { CV_MAX_BYTES, looksLikePdf, submitApplication, uploadCv } from './api/submitApplication';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -18,9 +20,10 @@ function Required() {
   return <span className="required" aria-hidden="true">*</span>;
 }
 
-function RadioGroup({ name, label, options, value, onChange }: {
+function RadioGroup({ name, label, hint, options, value, onChange }: {
   name: string;
   label: string;
+  hint?: string;
   options: Option[];
   value: string;
   onChange: (slug: string) => void;
@@ -28,7 +31,13 @@ function RadioGroup({ name, label, options, value, onChange }: {
   return (
     <div className="field">
       <span className="field-label" id={`${name}-label`}>{label}<Required /></span>
-      <div className="checkbox-list" role="radiogroup" aria-labelledby={`${name}-label`}>
+      {hint && <p className="field-hint field-hint-above" id={`${name}-hint`}>{hint}</p>}
+      <div
+        className="checkbox-list"
+        role="radiogroup"
+        aria-labelledby={`${name}-label`}
+        aria-describedby={hint ? `${name}-hint` : undefined}
+      >
         {options.map(option => (
           <label className="checkbox-item" key={option.slug}>
             <input
@@ -94,12 +103,16 @@ export default function ApplicationForm() {
   const [email, setEmail] = useState('');
   const [institution, setInstitution] = useState('');
   const [githubUsername, setGithubUsername] = useState('');
+  const [cv, setCv] = useState<File | null>(null);
+  const [cvError, setCvError] = useState('');
   const [careerStage, setCareerStage] = useState('');
   const [careerStageOther, setCareerStageOther] = useState('');
   const [domain, setDomain] = useState('');
   const [domainOther, setDomainOther] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
-  const [projectStatus, setProjectStatus] = useState('');
+  const [startReady, setStartReady] = useState('');
+  const [shareableResult, setShareableResult] = useState('');
+  const [dataSharing, setDataSharing] = useState('');
   const [projectGoals, setProjectGoals] = useState('');
   const [agenticFit, setAgenticFit] = useState('');
   const [relevantLinks, setRelevantLinks] = useState('');
@@ -130,16 +143,34 @@ export default function ApplicationForm() {
     });
   }
 
+  async function handleCvChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const input = e.currentTarget;
+    const file = input.files?.[0] ?? null;
+    setCv(null);
+    setCvError('');
+    if (!file) return;
+    if (file.size > CV_MAX_BYTES) {
+      setCvError(t.cvSizeError);
+    } else if (!(await looksLikePdf(file))) {
+      setCvError(t.cvTypeError);
+    } else {
+      setCv(file);
+      return;
+    }
+    input.value = '';
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     const requiredText = [
       name, email, institution, careerStage, domain,
-      projectDescription, projectStatus, projectGoals, agenticFit,
+      projectDescription, startReady, projectGoals, agenticFit, shareableResult, dataSharing,
       piName, piEmail, availability, workshopAttendance,
     ];
     if (
       requiredText.some(value => !value.trim()) ||
+      !cv ||
       computeResources.size === 0 ||
       (availability === 'partial' && !availabilityNotes.trim())
     ) {
@@ -160,6 +191,7 @@ export default function ApplicationForm() {
     }
     setSubmitting(true);
     try {
+      const cvPath = await uploadCv(cv);
       await submitApplication({
         name: name.trim(),
         email: email.trim(),
@@ -170,10 +202,13 @@ export default function ApplicationForm() {
         domain,
         domain_other: domain === 'other' ? domainOther.trim() || undefined : undefined,
         project_description: projectDescription.trim(),
-        project_status: projectStatus,
+        start_ready: startReady,
+        shareable_result: shareableResult,
+        data_sharing: dataSharing,
         project_goals: projectGoals.trim(),
         agentic_fit: agenticFit.trim(),
         relevant_links: relevantLinks.trim() || undefined,
+        cv_path: cvPath,
         compute_resources: Array.from(computeResources),
         compute_details: computeDetails.trim() || undefined,
         pi_name: piName.trim(),
@@ -271,6 +306,21 @@ export default function ApplicationForm() {
             />
           </div>
 
+          <div className="field">
+            <label htmlFor="cv">{t.labelCv}<Required /></label>
+            <input
+              id="cv"
+              type="file"
+              required
+              accept="application/pdf,.pdf"
+              aria-describedby="cv-hint"
+              aria-invalid={cvError ? true : undefined}
+              onChange={handleCvChange}
+            />
+            <p className="field-hint" id="cv-hint">{t.hintCv}</p>
+            {cvError && <p className="error-msg field-error" role="alert">{cvError}</p>}
+          </div>
+
           <SelectWithOther
             id="career-stage"
             label={t.labelCareerStage}
@@ -309,11 +359,12 @@ export default function ApplicationForm() {
           </div>
 
           <RadioGroup
-            name="project-status"
-            label={t.labelProjectStatus}
-            options={PROJECT_STATUSES}
-            value={projectStatus}
-            onChange={setProjectStatus}
+            name="start-ready"
+            label={t.labelStartReady}
+            hint={t.hintStartReady}
+            options={START_READINESS}
+            value={startReady}
+            onChange={setStartReady}
           />
 
           <div className="field">
@@ -339,6 +390,23 @@ export default function ApplicationForm() {
               onChange={e => setAgenticFit(e.target.value)}
             />
           </div>
+
+          <RadioGroup
+            name="shareable-result"
+            label={t.labelShareableResult}
+            options={SHAREABLE_RESULTS}
+            value={shareableResult}
+            onChange={setShareableResult}
+          />
+
+          <RadioGroup
+            name="data-sharing"
+            label={t.labelDataSharing}
+            hint={t.hintDataSharing}
+            options={DATA_SHARING}
+            value={dataSharing}
+            onChange={setDataSharing}
+          />
 
           <div className="field">
             <label htmlFor="relevant-links">{t.labelRelevantLinks}</label>
