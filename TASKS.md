@@ -4,12 +4,12 @@ Source: [LCR-221](https://linear.app/lightcone-research/issue/LCR-221/build-the-
 
 ## Fields
 
-- Name, email, institution, career stage, domain.
-- Project: description, current status (new or conversion of an existing project), goals for the pilot.
-- Computing resources (laptop, lab cluster, HPC centre), and whether the applicant has NERSC or CC-IN2P3 access.
+- Name, email, institution, GitHub username (optional), CV (PDF, up to 5 MB), career stage, domain.
+- Project: description, whether the applicant will have everything they need to start on 1 December, goals for the fellowship, why it is a good fit for working with AI agents, whether they expect a publicly shareable result such as a preprint, whether its data can be public (not a requirement), and links to relevant code or previous work (optional).
+- Computing resources (laptop, lab cluster, HPC centre).
 - PI or supervisor, and confirmation of their agreement.
-- Other group members taking part, if any.
-- Availability over the pilot period (early Dec – late Feb), and closing-workshop attendance in Paris.
+- Other individuals involved on this project, if any.
+- Availability during the fellowship (early Dec – late Feb), and attendance at the Paris Agentic AI for Science Summit.
 - Consent to the data policy.
 
 ## Done when

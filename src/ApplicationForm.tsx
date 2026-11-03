@@ -3,14 +3,16 @@ import {
   strings as t,
   CAREER_STAGES,
   DOMAINS,
-  PROJECT_STATUSES,
+  START_READINESS,
+  SHAREABLE_RESULTS,
+  DATA_SHARING,
   COMPUTE_RESOURCES,
   AVAILABILITIES,
   WORKSHOP_ATTENDANCE,
 } from './strings';
 import type { Option } from './strings';
 import { currentTime, isPreview, windowState } from './config';
-import { submitApplication } from './api/submitApplication';
+import { CV_MAX_BYTES, looksLikePdf, submitApplication, uploadCv } from './api/submitApplication';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -18,9 +20,10 @@ function Required() {
   return <span className="required" aria-hidden="true">*</span>;
 }
 
-function RadioGroup({ name, label, options, value, onChange }: {
+function RadioGroup({ name, label, hint, options, value, onChange }: {
   name: string;
   label: string;
+  hint?: string;
   options: Option[];
   value: string;
   onChange: (slug: string) => void;
@@ -28,7 +31,13 @@ function RadioGroup({ name, label, options, value, onChange }: {
   return (
     <div className="field">
       <span className="field-label" id={`${name}-label`}>{label}<Required /></span>
-      <div className="checkbox-list" role="radiogroup" aria-labelledby={`${name}-label`}>
+      {hint && <p className="field-hint field-hint-above" id={`${name}-hint`}>{hint}</p>}
+      <div
+        className="checkbox-list"
+        role="radiogroup"
+        aria-labelledby={`${name}-label`}
+        aria-describedby={hint ? `${name}-hint` : undefined}
+      >
         {options.map(option => (
           <label className="checkbox-item" key={option.slug}>
             <input
@@ -93,17 +102,22 @@ export default function ApplicationForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [institution, setInstitution] = useState('');
+  const [githubUsername, setGithubUsername] = useState('');
+  const [cv, setCv] = useState<File | null>(null);
+  const [cvError, setCvError] = useState('');
   const [careerStage, setCareerStage] = useState('');
   const [careerStageOther, setCareerStageOther] = useState('');
   const [domain, setDomain] = useState('');
   const [domainOther, setDomainOther] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
-  const [projectStatus, setProjectStatus] = useState('');
+  const [startReady, setStartReady] = useState('');
+  const [shareableResult, setShareableResult] = useState('');
+  const [dataSharing, setDataSharing] = useState('');
   const [projectGoals, setProjectGoals] = useState('');
+  const [agenticFit, setAgenticFit] = useState('');
+  const [relevantLinks, setRelevantLinks] = useState('');
   const [computeResources, setComputeResources] = useState<Set<string>>(new Set());
   const [computeDetails, setComputeDetails] = useState('');
-  const [nerscAccess, setNerscAccess] = useState(false);
-  const [ccin2p3Access, setCcin2p3Access] = useState(false);
   const [piName, setPiName] = useState('');
   const [piEmail, setPiEmail] = useState('');
   const [piAgreement, setPiAgreement] = useState(false);
@@ -129,16 +143,34 @@ export default function ApplicationForm() {
     });
   }
 
+  async function handleCvChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const input = e.currentTarget;
+    const file = input.files?.[0] ?? null;
+    setCv(null);
+    setCvError('');
+    if (!file) return;
+    if (file.size > CV_MAX_BYTES) {
+      setCvError(t.cvSizeError);
+    } else if (!(await looksLikePdf(file))) {
+      setCvError(t.cvTypeError);
+    } else {
+      setCv(file);
+      return;
+    }
+    input.value = '';
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     const requiredText = [
       name, email, institution, careerStage, domain,
-      projectDescription, projectStatus, projectGoals,
+      projectDescription, startReady, projectGoals, agenticFit, shareableResult, dataSharing,
       piName, piEmail, availability, workshopAttendance,
     ];
     if (
       requiredText.some(value => !value.trim()) ||
+      !cv ||
       computeResources.size === 0 ||
       (availability === 'partial' && !availabilityNotes.trim())
     ) {
@@ -159,21 +191,26 @@ export default function ApplicationForm() {
     }
     setSubmitting(true);
     try {
+      const cvPath = await uploadCv(cv);
       await submitApplication({
         name: name.trim(),
         email: email.trim(),
         institution: institution.trim(),
+        github_username: githubUsername.trim().replace(/^@/, '') || undefined,
         career_stage: careerStage,
         career_stage_other: careerStage === 'other' ? careerStageOther.trim() || undefined : undefined,
         domain,
         domain_other: domain === 'other' ? domainOther.trim() || undefined : undefined,
         project_description: projectDescription.trim(),
-        project_status: projectStatus,
+        start_ready: startReady,
+        shareable_result: shareableResult,
+        data_sharing: dataSharing,
         project_goals: projectGoals.trim(),
+        agentic_fit: agenticFit.trim(),
+        relevant_links: relevantLinks.trim() || undefined,
+        cv_path: cvPath,
         compute_resources: Array.from(computeResources),
         compute_details: computeDetails.trim() || undefined,
-        nersc_access: nerscAccess,
-        ccin2p3_access: ccin2p3Access,
         pi_name: piName.trim(),
         pi_email: piEmail.trim(),
         pi_agreement: piAgreement,
@@ -206,7 +243,10 @@ export default function ApplicationForm() {
       {previewing && <p className="preview-banner" role="status">{t.previewBanner}</p>}
 
       <h1 className="form-title">{t.title}</h1>
-      <p className="form-intro">{t.intro}</p>
+      <div className="form-intro">
+        {t.intro.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+        <p>{t.moreInfo} <a href={t.moreInfoUrl}>{t.moreInfoLabel}</a>.</p>
+      </div>
 
       <form onSubmit={handleSubmit} noValidate>
         {/* ── About you ───────────────────────────────────────── */}
@@ -252,6 +292,35 @@ export default function ApplicationForm() {
             />
           </div>
 
+          <div className="field">
+            <label htmlFor="github-username">{t.labelGithubUsername}</label>
+            <input
+              id="github-username"
+              type="text"
+              autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
+              placeholder={t.placeholderGithubUsername}
+              value={githubUsername}
+              onChange={e => setGithubUsername(e.target.value)}
+            />
+          </div>
+
+          <div className="field">
+            <label htmlFor="cv">{t.labelCv}<Required /></label>
+            <input
+              id="cv"
+              type="file"
+              required
+              accept="application/pdf,.pdf"
+              aria-describedby="cv-hint"
+              aria-invalid={cvError ? true : undefined}
+              onChange={handleCvChange}
+            />
+            <p className="field-hint" id="cv-hint">{t.hintCv}</p>
+            {cvError && <p className="error-msg field-error" role="alert">{cvError}</p>}
+          </div>
+
           <SelectWithOther
             id="career-stage"
             label={t.labelCareerStage}
@@ -281,6 +350,7 @@ export default function ApplicationForm() {
             <label htmlFor="project-description">{t.labelProjectDescription}<Required /></label>
             <textarea
               id="project-description"
+              className="textarea-longest"
               required
               placeholder={t.placeholderProjectDescription}
               value={projectDescription}
@@ -289,21 +359,62 @@ export default function ApplicationForm() {
           </div>
 
           <RadioGroup
-            name="project-status"
-            label={t.labelProjectStatus}
-            options={PROJECT_STATUSES}
-            value={projectStatus}
-            onChange={setProjectStatus}
+            name="start-ready"
+            label={t.labelStartReady}
+            hint={t.hintStartReady}
+            options={START_READINESS}
+            value={startReady}
+            onChange={setStartReady}
           />
 
           <div className="field">
             <label htmlFor="project-goals">{t.labelProjectGoals}<Required /></label>
             <textarea
               id="project-goals"
+              className="textarea-long"
               required
               placeholder={t.placeholderProjectGoals}
               value={projectGoals}
               onChange={e => setProjectGoals(e.target.value)}
+            />
+          </div>
+
+          <div className="field">
+            <label htmlFor="agentic-fit">{t.labelAgenticFit}<Required /></label>
+            <textarea
+              id="agentic-fit"
+              className="textarea-long"
+              required
+              placeholder={t.placeholderAgenticFit}
+              value={agenticFit}
+              onChange={e => setAgenticFit(e.target.value)}
+            />
+          </div>
+
+          <RadioGroup
+            name="shareable-result"
+            label={t.labelShareableResult}
+            options={SHAREABLE_RESULTS}
+            value={shareableResult}
+            onChange={setShareableResult}
+          />
+
+          <RadioGroup
+            name="data-sharing"
+            label={t.labelDataSharing}
+            hint={t.hintDataSharing}
+            options={DATA_SHARING}
+            value={dataSharing}
+            onChange={setDataSharing}
+          />
+
+          <div className="field">
+            <label htmlFor="relevant-links">{t.labelRelevantLinks}</label>
+            <textarea
+              id="relevant-links"
+              placeholder={t.placeholderRelevantLinks}
+              value={relevantLinks}
+              onChange={e => setRelevantLinks(e.target.value)}
             />
           </div>
         </section>
@@ -337,27 +448,6 @@ export default function ApplicationForm() {
               value={computeDetails}
               onChange={e => setComputeDetails(e.target.value)}
             />
-          </div>
-
-          <div className="field">
-            <div className="checkbox-list">
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={nerscAccess}
-                  onChange={e => setNerscAccess(e.target.checked)}
-                />
-                <span>{t.labelNersc}</span>
-              </label>
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={ccin2p3Access}
-                  onChange={e => setCcin2p3Access(e.target.checked)}
-                />
-                <span>{t.labelCcin2p3}</span>
-              </label>
-            </div>
           </div>
         </section>
 

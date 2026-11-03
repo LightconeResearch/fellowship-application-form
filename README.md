@@ -1,13 +1,13 @@
-# Lightcone Research Fellows — Application Form
+# Lightcone Research Fellowship — Application Form
 
-Application form for the first cohort of Lightcone Research Fellows (Scientific Pilot Program, LCR-221). It is a single-page form deployed on GitHub Pages, with Supabase as the backend and a Google Sheet where the selection committee reviews applications.
+Application form for the first cohort of Lightcone Research Fellows (LCR-221). It is a single-page form deployed on GitHub Pages, with Supabase as the backend and a Google Sheet where the selection committee reviews applications.
 
 | Date | |
 |---|---|
 | Fri 30 Oct 2026 | Applications open (midnight Paris) |
 | Fri 20 Nov 2026 | Applications close (end of day AoE) |
 | Mon 23 Nov 2026 | Selection and notification |
-| Early Dec 2026 | Pilot starts |
+| Early Dec 2026 | Fellowship starts |
 | Thu 20 May 2027 | All application data deleted |
 
 The window is enforced twice: in the UI (`src/config.ts`) and by the Supabase insert policy (`supabase/schema.sql`). Keep the two in sync.
@@ -31,4 +31,4 @@ In dev, `?now=<ISO date>` overrides the clock to preview each state:
 
 Before the window opens, add `?preview` to the URL to see the form on the published site, e.g. `https://lightconeresearch.github.io/fellowship-application-form/?preview`. Submission is disabled in preview, and the database refuses early inserts anyway.
 
-Local submits need `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in a gitignored `.env.local`. Setup, secrets and the data-retention runbook live in an internal doc, not in this repo.
+Local submits need `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` (the project's publishable key, `sb_publishable_…`) in a gitignored `.env.local`. To set up Supabase, the GitHub secrets and the committee Sheet from scratch, follow [DEPLOY.md](DEPLOY.md). Secret values never go in this repo.
