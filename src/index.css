@@ -35,7 +35,7 @@
   --lc-fs-small:         0.875rem;
 
   /* Layout */
-  --lc-content-max:      640px;
+  --lc-content-max:      780px;
   --lc-radius:           0.25rem;
 
   /* Spacing */
@@ -66,6 +66,65 @@ body {
   min-height: 100vh;
 }
 
+/* ── Backdrop ──────────────────────────────────────────────────
+   Legrand's 1839 Tableau astronomique, given the same gold tint as the
+   fellowship page's hero. It is fixed behind the card, so the orbits frame
+   the form, and fades out toward the top and bottom of the viewport. */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(166, 124, 60, 0.22), rgba(166, 124, 60, 0.22)),
+    url("./assets/legrand1839.webp");
+  background-size: cover, max(115%, 90rem) auto;
+  background-position: center, 50% 42%;
+  background-repeat: no-repeat;
+  opacity: 0.62;
+  mask-image:
+    radial-gradient(
+      ellipse 75% 85% at 50% 45%,
+      rgb(0 0 0 / 1) 0%,
+      rgb(0 0 0 / 0.85) 45%,
+      rgb(0 0 0 / 0.35) 75%,
+      rgb(0 0 0 / 0) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0) 0%,
+      rgb(0 0 0 / 0.3) 8%,
+      rgb(0 0 0 / 1) 22%
+    );
+  mask-composite: intersect;
+}
+
+.plate-credit {
+  position: fixed;
+  right: clamp(1.5rem, 4vw, 3rem);
+  bottom: clamp(1rem, 2.5vh, 1.75rem);
+  font-family: var(--lc-font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(78, 90, 112, 0.8);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  body::before {
+    background-size: cover, 220% auto;
+    opacity: 0.4;
+  }
+
+  .plate-credit {
+    display: none;
+  }
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -76,7 +135,9 @@ body {
 /* ── Form card ─────────────────────────────────────────────── */
 
 .form-card {
-  background: var(--lc-white);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--lc-outline);
   border-radius: calc(var(--lc-radius) * 2);
   box-shadow: 0 24px 48px -12px rgba(78, 90, 112, 0.10);
@@ -94,7 +155,18 @@ body {
   margin-bottom: var(--lc-space-6);
 }
 
+.form-logo-link {
+  display: inline-block;
+  border-radius: var(--lc-radius);
+}
+
+.form-logo-link:focus-visible {
+  outline: 2px solid var(--lc-accent);
+  outline-offset: 4px;
+}
+
 .form-logo {
+  display: block;
   height: 2.5rem;
   width: auto;
 }
@@ -114,15 +186,22 @@ body {
 
 .form-title {
   font-family: var(--lc-font-heading);
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.125rem);
+  font-weight: 400;
+  letter-spacing: -0.028em;
   color: var(--lc-primary);
-  line-height: 1.25;
-  margin-bottom: var(--lc-space-3);
+  line-height: 1.12;
+  text-wrap: balance;
+  margin-bottom: var(--lc-space-4);
+}
+
+.form-title-accent {
+  display: block;
+  color: var(--lc-warm);
 }
 
 .form-intro {
-  color: var(--lc-muted);
+  color: var(--lc-text);
   font-size: var(--lc-fs-body);
   margin-bottom: var(--lc-space-6);
 }
@@ -138,10 +217,10 @@ body {
 }
 
 .section-heading {
-  font-family: var(--lc-font-heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-family: var(--lc-font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--lc-muted);
   border-bottom: 1px solid var(--lc-rule);
@@ -317,21 +396,35 @@ body {
 
 .btn-submit {
   width: 100%;
-  background: var(--lc-primary);
-  color: var(--lc-white);
-  border: none;
-  border-radius: var(--lc-radius);
+  background: var(--lc-warm);
+  color: var(--lc-parchment);
+  border: 1px solid var(--lc-warm);
+  border-radius: calc(var(--lc-radius) * 0.6);
+  box-shadow: 0 6px 18px -10px rgba(166, 124, 60, 0.55);
   cursor: pointer;
-  font-family: var(--lc-font-heading);
+  font-family: var(--lc-font-ui);
   font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: 0.75rem 1.5rem;
-  transition: background 0.15s, opacity 0.15s;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 0.875rem 1.75rem;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s, opacity 0.15s;
 }
 
 .btn-submit:hover:not(:disabled) {
   background: var(--lc-accent);
+  border-color: var(--lc-accent);
+  transform: translateY(-1px);
+}
+
+.btn-submit:focus-visible {
+  outline: 2px solid var(--lc-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-submit:hover:not(:disabled) {
+    transform: none;
+  }
 }
 
 .btn-submit:disabled {
@@ -361,11 +454,17 @@ body {
 .gdpr-notice a {
   color: var(--lc-accent);
   text-decoration: none;
+  border-bottom: 1px solid rgba(166, 124, 60, 0.45);
+  transition: color 0.15s, border-color 0.15s;
 }
 
 .form-intro a:hover,
-.gdpr-notice a:hover {
-  text-decoration: underline;
+.form-intro a:focus-visible,
+.gdpr-notice a:hover,
+.gdpr-notice a:focus-visible {
+  color: var(--lc-warm);
+  border-color: currentColor;
+  outline: none;
 }
 
 /* ── Thank-you screen ──────────────────────────────────────── */
@@ -377,13 +476,15 @@ body {
 
 .thank-you h2 {
   font-family: var(--lc-font-heading);
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   color: var(--lc-primary);
   margin-bottom: var(--lc-space-4);
 }
 
 .thank-you p {
-  color: var(--lc-muted);
+  color: var(--lc-text);
   max-width: 36ch;
   margin: 0 auto;
 }
@@ -396,6 +497,6 @@ body {
   }
 
   .form-title {
-    font-size: 1.375rem;
+    font-size: 1.625rem;
   }
 }

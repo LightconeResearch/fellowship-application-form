@@ -237,12 +237,16 @@ export default function ApplicationForm() {
     <div className="form-card">
       {/* Header */}
       <div className="form-header">
-        <img src={`${import.meta.env.BASE_URL}logo-primary.svg`} alt="Lightcone Research" className="form-logo" />
+        <a href={t.siteUrl} className="form-logo-link">
+          <img src={`${import.meta.env.BASE_URL}logo-primary.svg`} alt="Lightcone Research" className="form-logo" />
+        </a>
       </div>
 
       {previewing && <p className="preview-banner" role="status">{t.previewBanner}</p>}
 
-      <h1 className="form-title">{t.title}</h1>
+      <h1 className="form-title">
+        {t.title} <span className="form-title-accent">{t.titleAccent}</span>
+      </h1>
       <div className="form-intro">
         {t.intro.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
         <p>{t.moreInfo} <a href={t.moreInfoUrl}>{t.moreInfoLabel}</a>.</p>
