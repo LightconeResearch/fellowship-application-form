@@ -31,4 +31,4 @@ In dev, `?now=<ISO date>` overrides the clock to preview each state:
 
 Before the window opens, add `?preview` to the URL to see the form on the published site, e.g. `https://lightconeresearch.github.io/fellowship-application-form/?preview`. Submission is disabled in preview, and the database refuses early inserts anyway.
 
-Local submits need `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in a gitignored `.env.local`. Setup, secrets and the data-retention runbook live in an internal doc, not in this repo.
+Local submits need `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` (the project's publishable key, `sb_publishable_…`) in a gitignored `.env.local`. Setup, secrets and the data-retention runbook live in an internal doc, not in this repo.

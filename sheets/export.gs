@@ -4,7 +4,8 @@
  * Bound to the selection committee's Sheet (Extensions → Apps Script).
  * Script Properties (Project Settings → Script Properties):
  *   SUPABASE_URL          https://xxxx.supabase.co
- *   SUPABASE_SERVICE_KEY  service_role key (only Sheet editors can see it)
+ *   SUPABASE_SECRET_KEY   a secret key, sb_secret_… (only Sheet editors can see it;
+ *                         it bypasses RLS and unlocks every CV)
  *
  * Rows are upserted into the "Applications" tab by application id. Only the
  * data columns (A → last COLUMNS entry) are written: committee columns added
@@ -41,7 +42,6 @@ const COLUMNS = [
   ['Domain', 'domain'],
   ['Domain (other)', 'domain_other'],
   ['Project description', 'project_description'],
-  ['Project status', 'project_status'],  // no longer asked; earlier applications only
   ['Ready on 1 Dec', 'start_ready'],
   ['Fellowship goals', 'project_goals'],
   ['Fit for AI agents', 'agentic_fit'],
@@ -59,11 +59,6 @@ const COLUMNS = [
   ['Paris summit', 'workshop_attendance'],
 ];
 
-// Headers earlier versions of this script wrote. Seeing one where a data column
-// now goes is expected; seeing anything else means a committee column is there.
-const PREVIOUS_HEADERS = [
-  'Pilot goals', 'NERSC access', 'CC-IN2P3 access', 'Group members', 'Closing workshop',
-];
 
 function onOpen() {
   SpreadsheetApp.getUi()
@@ -91,8 +86,8 @@ function installRetentionTrigger() {
 function supabaseConfig() {
   const props = PropertiesService.getScriptProperties();
   const url = props.getProperty('SUPABASE_URL');
-  const key = props.getProperty('SUPABASE_SERVICE_KEY');
-  if (!url || !key) throw new Error('Set SUPABASE_URL and SUPABASE_SERVICE_KEY in Script Properties.');
+  const key = props.getProperty('SUPABASE_SECRET_KEY');
+  if (!url || !key) throw new Error('Set SUPABASE_URL and SUPABASE_SECRET_KEY in Script Properties.');
   return { url, key };
 }
 
@@ -101,7 +96,8 @@ function supabaseFetch(path, options = {}) {
   const { url, key } = supabaseConfig();
   const params = {
     method: options.method || 'get',
-    headers: { apikey: key, Authorization: `Bearer ${key}` },
+    // Secret keys are not JWTs: send them on the apikey header only.
+    headers: { apikey: key },
     muteHttpExceptions: true,
   };
   if (options.payload) {
@@ -223,7 +219,7 @@ function refreshApplications() {
 function assertNoCommitteeColumnsInTheWay(sheet, width) {
   const lastColumn = sheet.getLastColumn();
   if (lastColumn === 0) return;
-  const known = new Set([...COLUMNS.map(([header]) => header), ...PREVIOUS_HEADERS]);
+  const known = new Set(COLUMNS.map(([header]) => header));
   const headers = sheet.getRange(1, 1, 1, Math.min(lastColumn, width)).getValues()[0];
   const first = headers.findIndex(header => header !== '' && !known.has(header));
   if (first === -1) return;
