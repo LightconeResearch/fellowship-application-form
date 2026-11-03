@@ -56,7 +56,9 @@ export const WORKSHOP_ATTENDANCE: Option[] = [
 ];
 
 export const strings = {
-  title: 'Apply for the Lightcone Research Fellowship',
+  title: 'Apply for the Lightcone Research',
+  titleAccent: 'Fellowship',
+  siteUrl: 'https://lightconeresearch.org/',
   intro: [
     'Join the first cohort of Lightcone Research Fellows, an interdisciplinary group of early-career researchers excited to build the future of research with AI agents. Bring your own project and carry it out with Lightcone’s tools, with hands-on support from our team.',
     'The fellowship runs remotely from early December to late February. Applications close on 20 November (end of day, AoE).',
