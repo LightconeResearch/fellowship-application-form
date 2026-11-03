@@ -106,5 +106,5 @@ export const strings = {
   emailError: 'Please enter a valid email address for yourself and your PI or supervisor.',
   piAgreementError: 'Your PI or supervisor must agree to your participation.',
   consentError: 'Please accept the data policy to submit your application.',
-  dataNotice: 'Lightcone Research uses your answers only to select the first cohort of Fellows and, if you are selected, to organise your participation in the fellowship. They are stored in Supabase (EU region) and shared with the selection committee in a restricted Google Sheet; they are not shared with anyone else. All application data is deleted by 20 May 2027. You may request access to, correction or deletion of your data at any time by writing to <a href="mailto:info@lightconeresearch.org">info@lightconeresearch.org</a>.',
+  dataNotice: 'Lightcone Research uses your answers only to select the first cohort of Fellows and, if you are selected, to organise your participation in the fellowship. They are stored securely and seen only by the selection committee. All application data is deleted by 20 May 2027. You may request access to, correction or deletion of your data at any time by writing to <a href="mailto:info@lightconeresearch.org">info@lightconeresearch.org</a>.',
 };
