@@ -6,8 +6,6 @@ export interface Option {
 export const CAREER_STAGES: Option[] = [
   { slug: 'phd',       label: 'PhD student' },
   { slug: 'postdoc',   label: 'Postdoc' },
-  { slug: 'engineer',  label: 'Research engineer or staff scientist' },
-  { slug: 'faculty',   label: 'Faculty or permanent researcher' },
   { slug: 'other',     label: 'Other' },
 ];
 
@@ -46,7 +44,7 @@ export const WORKSHOP_ATTENDANCE: Option[] = [
 
 export const strings = {
   title: 'Lightcone Research Fellows — Application',
-  intro: 'Apply to join the first cohort of Lightcone Research Fellows: carry out your own science project on the Lightcone stack, with direct support from our team, from early December to late February. Applications close on 20 November (end of day, AoE).',
+  intro: 'Apply to join the first cohort of Lightcone Research Fellows: carry out a three-month analysis for your own science project on the Lightcone stack, with direct support from our team, from early December to late February. Applications close on 20 November (end of day, AoE).',
   sectionAbout: 'About you',
   sectionProject: 'Your project',
   sectionCompute: 'Computing resources',
@@ -69,10 +67,10 @@ export const strings = {
   labelPiName: 'PI or supervisor name',
   labelPiEmail: 'PI or supervisor email',
   labelPiAgreement: 'My PI or supervisor agrees to my participation in the pilot',
-  labelGroupMembers: 'Other group members who would take part (optional)',
+  labelGroupMembers: 'Other individuals involved on this project (optional)',
   labelAvailability: 'Availability over the pilot period (early Dec – late Feb)',
   labelAvailabilityNotes: 'Please describe your availability',
-  labelWorkshop: 'Can you attend the closing workshop in Paris (late February)?',
+  labelWorkshop: 'Can you attend the Paris Agentic AI for Science Summit (late February)?',
   labelConsent: 'I have read the data notice above and agree to my answers being processed as described',
   placeholderSelect: 'Select…',
   placeholderName: 'Your name',

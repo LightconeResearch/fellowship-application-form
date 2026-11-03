@@ -34,10 +34,10 @@ const COLUMNS = [
   ['PI / supervisor', 'pi_name'],
   ['PI email', 'pi_email'],
   ['PI agrees', 'pi_agreement'],
-  ['Group members', 'group_members'],
+  ['Other individuals', 'group_members'],
   ['Availability', 'availability'],
   ['Availability notes', 'availability_notes'],
-  ['Closing workshop', 'workshop_attendance'],
+  ['Paris summit', 'workshop_attendance'],
 ];
 
 function onOpen() {

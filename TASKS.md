@@ -8,8 +8,8 @@ Source: [LCR-221](https://linear.app/lightcone-research/issue/LCR-221/build-the-
 - Project: description, current status (new or conversion of an existing project), goals for the pilot.
 - Computing resources (laptop, lab cluster, HPC centre), and whether the applicant has NERSC or CC-IN2P3 access.
 - PI or supervisor, and confirmation of their agreement.
-- Other group members taking part, if any.
-- Availability over the pilot period (early Dec – late Feb), and closing-workshop attendance in Paris.
+- Other individuals involved on this project, if any.
+- Availability over the pilot period (early Dec – late Feb), and attendance at the Paris Agentic AI for Science Summit.
 - Consent to the data policy.
 
 ## Done when
