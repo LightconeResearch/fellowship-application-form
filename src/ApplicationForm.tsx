@@ -93,6 +93,7 @@ export default function ApplicationForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [institution, setInstitution] = useState('');
+  const [githubUsername, setGithubUsername] = useState('');
   const [careerStage, setCareerStage] = useState('');
   const [careerStageOther, setCareerStageOther] = useState('');
   const [domain, setDomain] = useState('');
@@ -100,10 +101,10 @@ export default function ApplicationForm() {
   const [projectDescription, setProjectDescription] = useState('');
   const [projectStatus, setProjectStatus] = useState('');
   const [projectGoals, setProjectGoals] = useState('');
+  const [agenticFit, setAgenticFit] = useState('');
+  const [relevantLinks, setRelevantLinks] = useState('');
   const [computeResources, setComputeResources] = useState<Set<string>>(new Set());
   const [computeDetails, setComputeDetails] = useState('');
-  const [nerscAccess, setNerscAccess] = useState(false);
-  const [ccin2p3Access, setCcin2p3Access] = useState(false);
   const [piName, setPiName] = useState('');
   const [piEmail, setPiEmail] = useState('');
   const [piAgreement, setPiAgreement] = useState(false);
@@ -134,7 +135,7 @@ export default function ApplicationForm() {
     setError('');
     const requiredText = [
       name, email, institution, careerStage, domain,
-      projectDescription, projectStatus, projectGoals,
+      projectDescription, projectStatus, projectGoals, agenticFit,
       piName, piEmail, availability, workshopAttendance,
     ];
     if (
@@ -163,6 +164,7 @@ export default function ApplicationForm() {
         name: name.trim(),
         email: email.trim(),
         institution: institution.trim(),
+        github_username: githubUsername.trim().replace(/^@/, '') || undefined,
         career_stage: careerStage,
         career_stage_other: careerStage === 'other' ? careerStageOther.trim() || undefined : undefined,
         domain,
@@ -170,10 +172,10 @@ export default function ApplicationForm() {
         project_description: projectDescription.trim(),
         project_status: projectStatus,
         project_goals: projectGoals.trim(),
+        agentic_fit: agenticFit.trim(),
+        relevant_links: relevantLinks.trim() || undefined,
         compute_resources: Array.from(computeResources),
         compute_details: computeDetails.trim() || undefined,
-        nersc_access: nerscAccess,
-        ccin2p3_access: ccin2p3Access,
         pi_name: piName.trim(),
         pi_email: piEmail.trim(),
         pi_agreement: piAgreement,
@@ -206,7 +208,10 @@ export default function ApplicationForm() {
       {previewing && <p className="preview-banner" role="status">{t.previewBanner}</p>}
 
       <h1 className="form-title">{t.title}</h1>
-      <p className="form-intro">{t.intro}</p>
+      <div className="form-intro">
+        {t.intro.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+        <p>{t.moreInfo} <a href={t.moreInfoUrl}>{t.moreInfoLabel}</a>.</p>
+      </div>
 
       <form onSubmit={handleSubmit} noValidate>
         {/* ── About you ───────────────────────────────────────── */}
@@ -252,6 +257,20 @@ export default function ApplicationForm() {
             />
           </div>
 
+          <div className="field">
+            <label htmlFor="github-username">{t.labelGithubUsername}</label>
+            <input
+              id="github-username"
+              type="text"
+              autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
+              placeholder={t.placeholderGithubUsername}
+              value={githubUsername}
+              onChange={e => setGithubUsername(e.target.value)}
+            />
+          </div>
+
           <SelectWithOther
             id="career-stage"
             label={t.labelCareerStage}
@@ -281,6 +300,7 @@ export default function ApplicationForm() {
             <label htmlFor="project-description">{t.labelProjectDescription}<Required /></label>
             <textarea
               id="project-description"
+              className="textarea-longest"
               required
               placeholder={t.placeholderProjectDescription}
               value={projectDescription}
@@ -300,10 +320,33 @@ export default function ApplicationForm() {
             <label htmlFor="project-goals">{t.labelProjectGoals}<Required /></label>
             <textarea
               id="project-goals"
+              className="textarea-long"
               required
               placeholder={t.placeholderProjectGoals}
               value={projectGoals}
               onChange={e => setProjectGoals(e.target.value)}
+            />
+          </div>
+
+          <div className="field">
+            <label htmlFor="agentic-fit">{t.labelAgenticFit}<Required /></label>
+            <textarea
+              id="agentic-fit"
+              className="textarea-long"
+              required
+              placeholder={t.placeholderAgenticFit}
+              value={agenticFit}
+              onChange={e => setAgenticFit(e.target.value)}
+            />
+          </div>
+
+          <div className="field">
+            <label htmlFor="relevant-links">{t.labelRelevantLinks}</label>
+            <textarea
+              id="relevant-links"
+              placeholder={t.placeholderRelevantLinks}
+              value={relevantLinks}
+              onChange={e => setRelevantLinks(e.target.value)}
             />
           </div>
         </section>
@@ -337,27 +380,6 @@ export default function ApplicationForm() {
               value={computeDetails}
               onChange={e => setComputeDetails(e.target.value)}
             />
-          </div>
-
-          <div className="field">
-            <div className="checkbox-list">
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={nerscAccess}
-                  onChange={e => setNerscAccess(e.target.checked)}
-                />
-                <span>{t.labelNersc}</span>
-              </label>
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={ccin2p3Access}
-                  onChange={e => setCcin2p3Access(e.target.checked)}
-                />
-                <span>{t.labelCcin2p3}</span>
-              </label>
-            </div>
           </div>
         </section>
 

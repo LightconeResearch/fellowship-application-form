@@ -5,6 +5,7 @@ export interface ApplicationFormData {
   name: string;
   email: string;
   institution: string;
+  github_username?: string;
   career_stage: string;
   career_stage_other?: string;
   domain: string;
@@ -12,10 +13,10 @@ export interface ApplicationFormData {
   project_description: string;
   project_status: string;
   project_goals: string;
+  agentic_fit: string;
+  relevant_links?: string;
   compute_resources: string[];
   compute_details?: string;
-  nersc_access: boolean;
-  ccin2p3_access: boolean;
   pi_name: string;
   pi_email: string;
   pi_agreement: boolean;
@@ -38,6 +39,7 @@ export async function submitApplication(data: ApplicationFormData): Promise<void
     name:                data.name,
     email:               data.email,
     institution:         data.institution,
+    github_username:     data.github_username || null,
     career_stage:        data.career_stage,
     career_stage_other:  data.career_stage_other || null,
     domain:              data.domain,
@@ -45,10 +47,10 @@ export async function submitApplication(data: ApplicationFormData): Promise<void
     project_description: data.project_description,
     project_status:      data.project_status,
     project_goals:       data.project_goals,
+    agentic_fit:         data.agentic_fit,
+    relevant_links:      data.relevant_links || null,
     compute_resources:   data.compute_resources,
     compute_details:     data.compute_details || null,
-    nersc_access:        data.nersc_access,
-    ccin2p3_access:      data.ccin2p3_access,
     pi_name:             data.pi_name,
     pi_email:            data.pi_email,
     pi_agreement:        data.pi_agreement,

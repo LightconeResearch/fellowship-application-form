@@ -127,6 +127,10 @@ body {
   margin-bottom: var(--lc-space-6);
 }
 
+.form-intro p + p {
+  margin-top: var(--lc-space-3);
+}
+
 /* ── Section headings ──────────────────────────────────────── */
 
 .form-section {
@@ -194,6 +198,15 @@ body {
 .field textarea {
   resize: vertical;
   min-height: 5rem;
+}
+
+/* The long-answer project questions get more room. */
+.field textarea.textarea-long {
+  min-height: 9rem;
+}
+
+.field textarea.textarea-longest {
+  min-height: 12rem;
 }
 
 /* ── Checkboxes ────────────────────────────────────────────── */
@@ -305,11 +318,13 @@ body {
   line-height: 1.6;
 }
 
+.form-intro a,
 .gdpr-notice a {
   color: var(--lc-accent);
   text-decoration: none;
 }
 
+.form-intro a:hover,
 .gdpr-notice a:hover {
   text-decoration: underline;
 }

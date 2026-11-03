@@ -9,6 +9,7 @@ CREATE TABLE fellowship_applications (
   name                 TEXT        NOT NULL,
   email                TEXT        NOT NULL,
   institution          TEXT        NOT NULL,
+  github_username      TEXT,
   career_stage         TEXT        NOT NULL
     CHECK (career_stage IN ('phd', 'postdoc', 'engineer', 'faculty', 'other')),
   career_stage_other   TEXT,
@@ -22,12 +23,16 @@ CREATE TABLE fellowship_applications (
   project_status       TEXT        NOT NULL
     CHECK (project_status IN ('new', 'conversion')),
   project_goals        TEXT        NOT NULL,
+  -- Nullable: added after the form opened, so the first applications have none.
+  agentic_fit          TEXT,
+  relevant_links       TEXT,
 
   -- Computing resources
   compute_resources    TEXT[]      NOT NULL
     CHECK (cardinality(compute_resources) > 0
            AND compute_resources <@ ARRAY['laptop', 'lab-cluster', 'hpc-centre']),
   compute_details      TEXT,
+  -- No longer asked; kept for applications submitted before the questions were removed.
   nersc_access         BOOLEAN     DEFAULT false NOT NULL,
   ccin2p3_access       BOOLEAN     DEFAULT false NOT NULL,
 
